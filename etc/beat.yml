@@ -1,0 +1,4 @@
+tuxbeat:
+  period: 1s
+  tuxdir: "c:/psft/pt/bea/"
+	home:   "c:/Users/vagrant/psft/pt/8.55/appserv/APPDOM/PSTUXCFG"

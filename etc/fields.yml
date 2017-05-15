@@ -1,0 +1,14 @@
+- key: tuxbeat
+  title: tuxbeat
+  description: Beat for monitoring PeopleSoft Tuxedo domains
+  fields:
+    - name: domain
+      type: string
+      required: true
+      description: >
+        Tuxedo Domain Name
+    - name: name
+      type: string
+      required: true
+      description: >
+        Tuxedo Domain Name
