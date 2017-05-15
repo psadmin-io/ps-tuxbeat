@@ -5,3 +5,5 @@
 /tuxbeat
 /tuxbeat.test
 *.pyc
+/ps-tuxbeat
+/logs*

@@ -16,6 +16,10 @@ type Tuxbeat struct {
 	done   chan struct{}
 	config config.Config
 	client publisher.Client
+	tuxdir string
+	home   string
+
+	lastIndexTime time.Time
 }
 
 // New beater
@@ -32,27 +36,27 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 	return bt, nil
 }
 
+/// *** Beater interface methods ***///
+
 func (bt *Tuxbeat) Run(b *beat.Beat) error {
-	logp.Info("tuxbeat is running! Hit CTRL-C to stop it.")
+	logp.Info("lsbeat is running! Hit CTRL-C to stop it.")
 
 	bt.client = b.Publisher.Connect()
 	ticker := time.NewTicker(bt.config.Period)
-	counter := 1
+
 	for {
+		now := time.Now()
+		// bt.listDir(bt.config.Path, b.Name) // call lsDir
+		bt.returnTuxDir(bt.config.Tuxdir, bt.config.Home, b.Name)
+		bt.lastIndexTime = now // mark Timestamp
+
+		logp.Info("Event sent")
+
 		select {
 		case <-bt.done:
 			return nil
 		case <-ticker.C:
 		}
-
-		event := common.MapStr{
-			"@timestamp": common.Time(time.Now()),
-			"type":       b.Name,
-			"counter":    counter,
-		}
-		bt.client.PublishEvent(event)
-		logp.Info("Event sent")
-		counter++
 	}
 }
 
@@ -60,3 +64,40 @@ func (bt *Tuxbeat) Stop() {
 	bt.client.Close()
 	close(bt.done)
 }
+
+func (bt *Tuxbeat) returnTuxDir(tuxdir string, cfg_home string, beatname string) {
+
+	event := common.MapStr{
+		"@timestamp":  common.Time(time.Now()),
+		"type":        beatname,
+		"tuxdir":      tuxdir,
+		"ps_cfg_home": cfg_home,
+	}
+	bt.client.PublishEvent(event)
+}
+
+// func (bt *Tuxbeat) listDir(dirFile string, beatname string) {
+// 	files, _ := ioutil.ReadDir(dirFile)
+// 	for _, f := range files {
+// 		t := f.ModTime()
+// 		path := filepath.Join(dirFile, f.Name())
+
+// 		if t.After(bt.lastIndexTime) {
+// 			event := common.MapStr{
+// 				"@timestamp": common.Time(time.Now()),
+// 				"type":       beatname,
+// 				"modtime":    common.Time(t),
+// 				"filename":   f.Name(),
+// 				"path":       path,
+// 				"directory":  f.IsDir(),
+// 				"filesize":   f.Size(),
+// 			}
+
+// 			bt.client.PublishEvent(event)
+// 		}
+
+// 		if f.IsDir() {
+// 			bt.listDir(path, beatname)
+// 		}
+// 	}
+// }

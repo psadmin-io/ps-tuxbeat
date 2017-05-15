@@ -7,12 +7,14 @@ import "time"
 
 type Config struct {
 	Period time.Duration `config:"period"`
+	Path   string        `config:"path"`
 	Tuxdir string        `config:"tuxdir"`
 	Home   string        `config:"home"`
 }
 
 var DefaultConfig = Config{
 	Period: 1 * time.Second,
+	Path:   ".",
 	Tuxdir: "c:/psft/pt/bea/",
 	Home:   "c:/Users/vagrant/psft/pt/8.55/appserv/APPDOM/PSTUXCFG",
 }

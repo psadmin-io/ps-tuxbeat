@@ -2,13 +2,18 @@
   title: tuxbeat
   description: Beat for monitoring PeopleSoft Tuxedo domains
   fields:
-    - name: domain
-      type: string
+    - name: counter
+      type: integer
       required: true
       description: >
-        Tuxedo Domain Name
-    - name: name
-      type: string
-      required: true
-      description: >
-        Tuxedo Domain Name
+        PLEASE UPDATE DOCUMENTATION
+    #new fiels added lsbeat
+    - name: modtime
+      type: date
+    - name: filename
+      type: text
+    - name: path
+    - name: directory
+      type: boolean
+    - name: filesize
+      type: long
