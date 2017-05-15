@@ -5,6 +5,9 @@
 tuxbeat:
   # Defines how often an event is sent to the output
   period: 1s
+  tuxdir: "c:/psft/pt/bea/"
+  ps_cfg_home:   "c:/Users/vagrant/psft/pt/8.55"
+  domain:   "APPDOM"
 
 #================================ General =====================================
 

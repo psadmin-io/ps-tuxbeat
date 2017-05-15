@@ -47,7 +47,7 @@ func (bt *Tuxbeat) Run(b *beat.Beat) error {
 	for {
 		now := time.Now()
 		// bt.listDir(bt.config.Path, b.Name) // call lsDir
-		bt.returnTuxDir(bt.config.Tuxdir, bt.config.Home, b.Name)
+		bt.returnTuxDir(bt.config.Tuxdir, bt.config.PsCfgHome, bt.config.Domain, b.Name)
 		bt.lastIndexTime = now // mark Timestamp
 
 		logp.Info("Event sent")
@@ -65,13 +65,20 @@ func (bt *Tuxbeat) Stop() {
 	close(bt.done)
 }
 
-func (bt *Tuxbeat) returnTuxDir(tuxdir string, cfg_home string, beatname string) {
+// func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain string) {
+// 	out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
+// }
 
+func (bt *Tuxbeat) returnTuxDir(tuxdir string, cfgHome string, domain string, beatname string) {
+
+	PSTUXCFG := cfgHome + "/appsrv/" + domain + "/PSTUXCFG"
 	event := common.MapStr{
 		"@timestamp":  common.Time(time.Now()),
 		"type":        beatname,
 		"tuxdir":      tuxdir,
-		"ps_cfg_home": cfg_home,
+		"ps_cfg_home": cfgHome,
+		"domain":      domain,
+		"PSTUXCFG":    PSTUXCFG,
 	}
 	bt.client.PublishEvent(event)
 }

@@ -8,12 +8,11 @@
       description: >
         PLEASE UPDATE DOCUMENTATION
     #new fiels added lsbeat
-    - name: modtime
-      type: date
-    - name: filename
-      type: text
-    - name: path
-    - name: directory
-      type: boolean
-    - name: filesize
-      type: long
+    - name: tuxdir
+      type: string
+    - name: ps_cfg_home
+      type: string
+    - name: domain
+      type: string
+    - name: PSTUXCFG
+      type: string

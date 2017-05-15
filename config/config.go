@@ -6,15 +6,15 @@ package config
 import "time"
 
 type Config struct {
-	Period time.Duration `config:"period"`
-	Path   string        `config:"path"`
-	Tuxdir string        `config:"tuxdir"`
-	Home   string        `config:"home"`
+	Period    time.Duration `config:"period"`
+	Tuxdir    string        `config:"tuxdir"`
+	PsCfgHome string        `config:"ps_cfg_home"`
+	Domain    string        `config:"domain"`
 }
 
 var DefaultConfig = Config{
-	Period: 1 * time.Second,
-	Path:   ".",
-	Tuxdir: "c:/psft/pt/bea/",
-	Home:   "c:/Users/vagrant/psft/pt/8.55/appserv/APPDOM/PSTUXCFG",
+	Period:    1 * time.Second,
+	Tuxdir:    "c:/psft/pt/bea/",
+	PsCfgHome: "c:/Users/vagrant/psft/pt/8.55/",
+	Domain:    "APPDOM",
 }

@@ -1,5 +1,6 @@
 tuxbeat:
   period: 1s
-  path:   "*"
+  # Defines how often an event is sent to the output
   tuxdir: "c:/psft/pt/bea/"
-	home:   "c:/Users/vagrant/psft/pt/8.55/appserv/APPDOM/PSTUXCFG"
+  ps_cfg_home:   "c:/Users/vagrant/psft/pt/8.55"
+  domain:   "APPDOM"
