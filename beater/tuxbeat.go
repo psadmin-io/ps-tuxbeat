@@ -1,7 +1,9 @@
 package beater
 
 import (
+	"bytes"
 	"fmt"
+	"log"
 	"os/exec"
 	"time"
 
@@ -70,8 +72,14 @@ func (bt *Tuxbeat) Stop() {
 func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain string) {
 	PSTUXCFG := cfgHome + "/appsrv/" + domain + "/PSTUXCFG"
 	cmd := exec.Command("$env:TUXCONFIG=\""+PSTUXCFG+"\"", "")
-	cmd.Run()
-	fmt.Println("Setting environment variable")
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Setting environment variable: %q\n", out.String())
+	fmt.Println("")
 	// out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
 }
 
