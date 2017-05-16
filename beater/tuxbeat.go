@@ -2,6 +2,7 @@ package beater
 
 import (
 	"fmt"
+	"os/exec"
 	"time"
 
 	"github.com/elastic/beats/libbeat/beat"
@@ -65,9 +66,12 @@ func (bt *Tuxbeat) Stop() {
 	close(bt.done)
 }
 
-// func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain string) {
-// 	out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
-// }
+func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain string) {
+	PSTUXCFG := cfgHome + "/appsrv/" + domain + "/PSTUXCFG"
+	cmd := exec.Command("$env:TUXCONFIG=\""+PSTUXCFG+"\"", "")
+	cmd.Run()
+	// out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
+}
 
 func (bt *Tuxbeat) returnTuxDir(tuxdir string, cfgHome string, domain string, beatname string) {
 
