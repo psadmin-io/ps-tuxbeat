@@ -48,6 +48,7 @@ func (bt *Tuxbeat) Run(b *beat.Beat) error {
 	for {
 		now := time.Now()
 		// bt.listDir(bt.config.Path, b.Name) // call lsDir
+		bt.captureDomainStatus(bt.config.Tuxdir, bt.config.PsCfgHome, bt.config.Domain)
 		bt.returnTuxDir(bt.config.Tuxdir, bt.config.PsCfgHome, bt.config.Domain, b.Name)
 		bt.lastIndexTime = now // mark Timestamp
 
@@ -70,6 +71,7 @@ func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain str
 	PSTUXCFG := cfgHome + "/appsrv/" + domain + "/PSTUXCFG"
 	cmd := exec.Command("$env:TUXCONFIG=\""+PSTUXCFG+"\"", "")
 	cmd.Run()
+	fmt.Println("Setting environment variable")
 	// out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
 }
 
