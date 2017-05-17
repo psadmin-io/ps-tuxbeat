@@ -12,6 +12,8 @@ import (
 	"github.com/elastic/beats/libbeat/logp"
 	"github.com/elastic/beats/libbeat/publisher"
 
+	"os"
+
 	"github.com/psadmin-io/ps-tuxbeat/config"
 )
 
@@ -42,7 +44,7 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 /// *** Beater interface methods ***///
 
 func (bt *Tuxbeat) Run(b *beat.Beat) error {
-	logp.Info("lsbeat is running! Hit CTRL-C to stop it.")
+	logp.Info("tuxbeat is running! Hit CTRL-C to stop it.")
 
 	bt.client = b.Publisher.Connect()
 	ticker := time.NewTicker(bt.config.Period)
@@ -70,21 +72,26 @@ func (bt *Tuxbeat) Stop() {
 }
 
 func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain string) {
+	logp.Info("Calling tmadmin to capture domain status")
 	PSTUXCFG := cfgHome + "/appsrv/" + domain + "/PSTUXCFG"
-	cmd := exec.Command("$env:TUXCONFIG=\""+PSTUXCFG+"\"", "")
 	var out bytes.Buffer
+	os.Setenv("TUXCONFIG", PSTUXCFG)
+
+	cmd := exec.Command(tuxdir+"/bin/tmadmin", "-r")
+
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	fmt.Printf("Setting environment variable: %q\n", out.String())
 	fmt.Println("")
 	// out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
 }
 
 func (bt *Tuxbeat) returnTuxDir(tuxdir string, cfgHome string, domain string, beatname string) {
-
+	logp.Info("Sending domain status to output")
 	PSTUXCFG := cfgHome + "/appsrv/" + domain + "/PSTUXCFG"
 	event := common.MapStr{
 		"@timestamp":  common.Time(time.Now()),
