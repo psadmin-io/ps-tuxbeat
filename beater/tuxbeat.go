@@ -78,15 +78,16 @@ func (bt *Tuxbeat) captureDomainStatus(tuxdir string, cfgHome string, domain str
 	var out bytes.Buffer
 
 	logp.Info("Setting environment variable: %q\n", out.String())
-	os.Setenv("TUXCONFIG", PSTUXCFG)
+	// os.Setenv("TUXCONFIG", PSTUXCFG)
 	cmd := exec.Command(tuxdir+"/bin/tmadmin", "-r")
+	cmd.Env = append(os.Environ(), "TUXCONFIG="+PSTUXCFG)
 	cmd.Stdout = &out
 
 	err := cmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
-	os.Unsetenv("TUXCONFIG")
+	// os.Unsetenv("TUXCONFIG")
 
 	// out, err := exec.Command(tuxdir+"/tmadmin", "-r").Output()
 }
