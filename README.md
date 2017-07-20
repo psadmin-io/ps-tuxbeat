@@ -1,3 +1,5 @@
+> This project is currently incomplete and not functioning
+
 # Tuxbeat
 
 Welcome to Tuxbeat. This is an experimental project (not functioning) to gather Tuxedo domain statistics using the Beat framework.
